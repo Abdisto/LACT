@@ -55,24 +55,13 @@
           substituteInPlace res/lactd.service \
             --replace-fail ExecStart={lact,$out/bin/lact}
 
-          if [ -f res/io.github.lact-linux.desktop ]; then
-            substituteInPlace res/io.github.lact-linux.desktop \
-              --replace-fail Exec={lact,$out/bin/lact}
-          fi
-
-          pushd $cargoDepsCopy/pciid-parser
-          oldHash=$(sha256sum src/lib.rs | cut -d " " -f 1)
-          substituteInPlace src/lib.rs --subst-var-by hwdata ${pkgs.hwdata}
-          substituteInPlace .cargo-checksum.json \
-            --replace $oldHash $(sha256sum src/lib.rs | cut -d " " -f 1)
-          popd
+          substituteInPlace res/io.github.ilya_zlobintsev.LACT.desktop \
+            --replace-fail Exec={lact,$out/bin/lact}
         '';
 
         postInstall = ''
           install -Dm444 res/lactd.service -t $out/lib/systemd/system
-          if [ -f res/io.github.lact-linux.desktop ]; then
-            install -Dm444 res/io.github.lact-linux.desktop -t $out/share/applications
-          fi
+          install -Dm444 res/io.github.ilya_zlobintsev.LACT.desktop -t $out/share/applications
         '';
 
         postFixup = pkgs.lib.optionalString pkgs.stdenv.targetPlatform.isElf ''
