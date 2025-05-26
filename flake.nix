@@ -59,10 +59,10 @@
             substituteInPlace res/io.github.lact-linux.desktop \
               --replace-fail Exec={lact,$out/bin/lact}
           fi
-          
+
           pushd $cargoDepsCopy/pciid-parser
           oldHash=$(sha256sum src/lib.rs | cut -d " " -f 1)
-          substituteInPlace src/lib.rs --subst-var-by hwdata ${hwdata}
+          substituteInPlace src/lib.rs --subst-var-by hwdata ${pkgs.hwdata}
           substituteInPlace .cargo-checksum.json \
             --replace $oldHash $(sha256sum src/lib.rs | cut -d " " -f 1)
           popd
