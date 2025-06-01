@@ -30,6 +30,8 @@
           llvmPackages.libclang
           llvmPackages.bintools
           rustPlatform.bindgenHook
+          autoAddDriverRunpath
+          systemdMinimal
         ];
 
         buildInputs = with pkgs; [
@@ -42,11 +44,6 @@
           coreutils
           ocl-icd
           fuse3
-          autoAddDriverRunpath
-          nixosTests
-          nix-update-script
-          systemdMinimal
-          lib
         ];
 
         checkFlags = [
