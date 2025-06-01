@@ -56,15 +56,15 @@
 
         postPatch = ''
           substituteInPlace lact-daemon/src/server/system.rs \
-            --replace-fail 'Command::new("uname")' 'Command::new("${coreutils}/bin/uname")'
+            --replace-fail 'Command::new("uname")' 'Command::new("${pkgs.coreutils}/bin/uname")'
           substituteInPlace lact-daemon/src/server/profiles.rs \
-            --replace-fail 'Command::new("uname")' 'Command::new("${coreutils}/bin/uname")'
+            --replace-fail 'Command::new("uname")' 'Command::new("${pkgs.coreutils}/bin/uname")'
       
           substituteInPlace lact-daemon/src/server/handler.rs \
-            --replace-fail 'Command::new("journalctl")' 'Command::new("${systemdMinimal}/bin/journalctl")'
+            --replace-fail 'Command::new("journalctl")' 'Command::new("${pkgs.systemdMinimal}/bin/journalctl")'
       
           substituteInPlace lact-daemon/src/server/vulkan.rs \
-            --replace-fail 'Command::new("vulkaninfo")' 'Command::new("${vulkan-tools}/bin/vulkaninfo")'
+            --replace-fail 'Command::new("vulkaninfo")' 'Command::new("${pkgs.vulkan-tools}/bin/vulkaninfo")'
       
           substituteInPlace res/lactd.service \
             --replace-fail ExecStart={lact,$out/bin/lact}
@@ -74,7 +74,7 @@
       
           # read() looks for the database in /usr/share so we use read_from_file() instead
           substituteInPlace lact-daemon/src/server/handler.rs \
-            --replace-fail 'Database::read()' 'Database::read_from_file("${hwdata}/share/hwdata/pci.ids")'
+            --replace-fail 'Database::read()' 'Database::read_from_file("${pkgs.hwdata}/share/hwdata/pci.ids")'
         '';
 
         postInstall = ''
@@ -96,7 +96,7 @@
           maintainers = with pkgs.lib.maintainers; [
             cything
             figsoda
-            figsoda
+            johnrtitor
             atemu
           ];
           platforms = pkgs.lib.platforms.linux;
